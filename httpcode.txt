@@ -1,0 +1,32 @@
+#!/bin/bash
+
+###############
+#Author: B Naveenbalaji
+#
+#This script will give the output of the http code of a URL
+#
+#Date: 07/04/2024
+###############
+
+set -e
+
+echo "Enter the URL"
+read URL
+
+status=$(curl -s -o /dev/null --write-out "%{http_code}" https://"$URL")
+
+if [ "$status" -gt 100 ] && [ "$status" -lt 199 ];
+then
+echo "The request was received, continuing process"
+elif [ "$status" -gt 200 ] && [ "$status" -lt 299 ];
+then
+echo " Success - The request was successfully received, understood, and accepted"
+elif [ "$status" -gt 300 ] && [ "$status" -lt 399 ];
+then
+echo "Success - Further action needs to be taken in order to complete the request"
+elif [ "$status" -gt 400 ] && [ "$status" -lt 599 ];
+then
+echo "Failed - request contains bad syntax or server failed to fulfill an apparently valid request"
+else
+echo "Network Error"
+fi
